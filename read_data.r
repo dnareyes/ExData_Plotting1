@@ -9,16 +9,15 @@ file_url <- paste0(
     "exdata%2Fdata%2Fhousehold_power_consumption.zip"
 )
 download.file(file_url,
-    destfile = "./ExData_Plotting1/data/household_power_consumption.zip"
+    destfile = "./data/household_power_consumption.zip"
 )
 
-unzip("./ExData_Plotting1/data/household_power_consumption.zip",
-    exdir = "./ExData_Plotting1/data"
+unzip("./data/household_power_consumption.zip",
+    exdir = "./data"
 )
 
-file_name <- "./ExData_Plotting1/data/household_power_consumption.txt"
+file_name <- "data/household_power_consumption.txt"
 data <- read.table(file_name, header = TRUE, sep = ";", dec = ".", na.strings = "?")
 data <- subset(data, data$Date == "1/2/2007" | data$Date == "2/2/2007")
-head(data)
-library(lubridate)
-data$DateTime <- dmy_hms(paste(data$Date, data$Time))
+data$Date <- as.Date(data$Date, format = "%d/%m/%Y")
+data$DateTime <- strptime(paste(data$Date, data$Time), format = "%Y-%m-%d %H:%M:%S")
